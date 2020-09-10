@@ -23,6 +23,8 @@ class Skrapr
 
       listings_on_pg.each do |listing|
         listing_url = listing.attribute('href').value
+
+        next if listing_urls.include?(listing_url)
         next unless BUY_SELL_REGEX =~ listing_url
         Rails.logger.info(listing_url)
         listing_urls << listing_url
@@ -41,6 +43,8 @@ class Skrapr
 
         listings_on_pg.each do |listing|
           listing_url = listing.attribute('href').value
+
+          next if listing_urls.include?(listing_url)
           next unless BUY_SELL_REGEX =~ listing_url
           listing_urls << listing_url
         end
@@ -67,7 +71,7 @@ class Skrapr
 
         next unless original_post_date > Time.new.to_date - 10
 
-        params = {
+        listing_params = {
           url: url,
           title: title,
           price: price,
@@ -78,8 +82,11 @@ class Skrapr
           view_count: view_count,
           watch_count: watch_count
         }
-        Rails.logger.info(params)
-        listing_details << params
+
+        Rails.logger.info(listing_params)
+
+        next if listing_details.include?(listing_params)
+        listing_details << listing_params
       end
       listing_details.uniq
     end

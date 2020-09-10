@@ -1,0 +1,38 @@
+<h1>Listings#index</h1>
+<p>Find me in app/views/listings/index.html.erb</p>
+
+<table class="table table-hover table-responsive">
+  <thead class="thead-light">
+  <tr>
+    <th scope="col">Title</th>
+    <th scope="col">URL</th>
+    <th scope="col">Category</th>
+    <th scope="col">Price</th>
+    <th scope="col">Original Post Date</th>
+    <th scope="col">Last Repost Late</th>
+    <th scope="col">Sale Status</th>
+    <th scope="col">View Count</th>
+    <th scope="col">Watch Count</th>
+    <th scope="col">Created At</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @listing_details.each do |listing| %>
+    <tr>
+      <th scope="row"><%= listing.title %></th>
+      <td><%= listing.url %></td>
+      <td><%= listing.category %></td>
+      <td><%= listing.price %></td>
+      <td><%= listing.original_post_date %></td>
+      <td><%= listing.last_repost_date %></td>
+      <td><%= listing.sale_status %></td>
+      <td><%= listing.view_count %></td>
+      <td><%= listing.watch_count %></td>
+      <td><%= listing.created_at %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+
+
+<%= link_to 'Query Pinkbike', new_listing_path %>

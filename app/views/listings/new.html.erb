@@ -1,0 +1,13 @@
+<div class="container is-widescreen" style="margin-top: 20px;">
+  <div class="container">
+    <%= form_for @search, url: { action: :create }, html: { class: :control } do |f| %>
+      <div class="field">
+        <%= f.text_field :name, class: 'input', placeholder: 'Name / Description for Search' %>
+      </div>
+      <div class="field">
+        <%= f.text_field :url, class: 'input', placeholder: 'Pb search URL' %>
+      </div>
+      <%= f.submit "Add Search", class: 'button' %>
+    <% end %>
+  </div>
+</div>

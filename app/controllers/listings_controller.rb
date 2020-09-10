@@ -4,10 +4,34 @@ class ListingsController < ApplicationController
 
   def index
     @listing_details = Listing.all.order('original_post_date DESC, watch_count DESC')
+    @searches = Search.all.order('last_synch_at DESC')
   end
 
-  def synch_with_pb
-    @listing_details = Skrapr.run(MORE_URLS)
+  def new
+    @search = Search.new
+  end
+
+  def create
+    @search = Search.new(search_required_params)
+
+    if @search.save!
+      flash[:notice] = 'Search created!'
+      redirect_to listings_path
+    else
+      render 'new'
+    end
+  end
+
+  def destroy
+    @search = Search.find(params[:id])
+    @search.destroy!
+    flash[:notice] = 'Search deleted!'
+
+    render 'index'
+  end
+
+  def synch_with_pb(search_to_synch: MORE_URLS)
+    @listing_details = Skrapr.run(search_to_synch)
     @count = Listing.create_from_collection(@listing_details)
 
     redirect_to listings_path
@@ -15,7 +39,9 @@ class ListingsController < ApplicationController
     Rails.logger.info(e)
   end
 
-  def create
-    # Listing.create_from_collection(@listing_details)
+  private
+
+  def search_required_params
+    params.require(:search).permit(:name, :url)
   end
 end

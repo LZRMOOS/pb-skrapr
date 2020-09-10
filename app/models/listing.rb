@@ -20,6 +20,8 @@ class Listing < ApplicationRecord
   validates :url, presence: true
   validates_uniqueness_of :url
 
+  belongs_to :search
+
   def self.create_from_collection(collection)
     collection.each do |item|
       begin
@@ -29,7 +31,7 @@ class Listing < ApplicationRecord
             last_repost_date: item[:last_repost_date],
             sale_status: item[:sale_status],
             view_count: item[:view_count],
-            watch_count: item[:watch_count]
+            watch_count: item[:watch_count],
           )
         else
           Listing.create!(item)

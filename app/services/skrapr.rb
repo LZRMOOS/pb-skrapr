@@ -6,10 +6,9 @@ class Skrapr
   class << self
     BUY_SELL_REGEX = /https:\/\/www\.pinkbike\.com\/buysell\/\d{7}/
 
-    def run(url_to_scrape)
-      listing_urls = find_listings_urls(url_to_scrape)
-
-      scrape_listings(listing_urls)
+    def run(search)
+      listing_urls = find_listings_urls(search.url)
+      scrape_listings(listing_urls, search.id)
     end
 
     private
@@ -30,7 +29,7 @@ class Skrapr
         listing_urls << listing_url
       end
 
-      next_page_url = doc.css('.next-page').css('a').attribute('href').value
+      next_page_url = doc.css('.next-page').css('a').attribute('href')&.value
 
       until next_page_url.nil?
         listing_url = "https://www.pinkbike.com/buysell/list/#{next_page_url}"
@@ -42,7 +41,7 @@ class Skrapr
         listings_on_pg = doc.css('.filtered-search-results').css('.bsitem').css('a')
 
         listings_on_pg.each do |listing|
-          listing_url = listing.attribute('href').value
+          listing_url = listing.attribute('href')&.value
 
           next if listing_urls.include?(listing_url)
           next unless BUY_SELL_REGEX =~ listing_url
@@ -52,7 +51,7 @@ class Skrapr
       listing_urls.uniq
     end
 
-    def scrape_listings(listing_urls)
+    def scrape_listings(listing_urls, search_id)
       listing_details = []
       listing_urls.each do |url|
         html = open(url)
@@ -80,7 +79,8 @@ class Skrapr
           last_repost_date: last_repost_date,
           sale_status: sale_status,
           view_count: view_count,
-          watch_count: watch_count
+          watch_count: watch_count,
+          search_id: search_id
         }
 
         Rails.logger.info(listing_params)

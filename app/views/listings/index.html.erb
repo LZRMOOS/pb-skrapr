@@ -1,76 +1,83 @@
 <div class="container">
   <% if @searches.size > 0 %>
-    <div class="container">
-      Searches
-      <table class="table is-striped is-hoverable">
-        <thead class="thead-light">
-          <tr>
-            <th scope="col">Search Name</th>
-            <th scope="col">Pb URL</th>
-            <th scope="col">Last Synch At</th>
-            <th scope="col"></th>
-            <th scope="col"></th>
-          </tr>
-        </thead>
-        <tbody>
-        <% @searches.each do |search| %>
-          <tr>
-            <td scope="row"><%= link_to search.name, search.url, target: :_blank %></td>
-            <td scope="row"><%= search.url %></td>
-            <td scope="row"><%= search.last_synch_at %></td>
-            <td scope="row">
-              <%= link_to 'Synch',
-                          listings_synch_with_pb_path(search),
-                          method: :create
-              %>
-            </td>
-            <td scope="row">
-              <%= link_to 'Delete',
-                          listing_path(search),
-                          method: :delete,
-                          data: { confirm: 'Are you certain you want to delete this?' } %>
-            </td>
-          </tr>
-        <% end %>
-        </tbody>
-      </table>
+    <nav class="panel" style="margin-top: 20px;">
+      <p class="panel-heading">Searches</p>
+      <div class="panel-block">
+        <table class="table is-striped is-hoverable">
+          <thead class="thead-light">
+            <tr>
+              <th scope="col">Search Name</th>
+              <th scope="col">Pb URL</th>
+              <th scope="col">Last Synch At</th>
+              <th scope="col"></th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+          <tbody>
+          <% @searches.each do |search| %>
+            <tr>
+              <td scope="row"><%= link_to search.name, search.url, target: :_blank %></td>
+              <td scope="row"><%= search.url %></td>
+              <td scope="row"><%= search.last_synch_at %></td>
+              <td scope="row">
+                <%= button_to 'Synch', { controller: :listings, action: :synch_with_pb, search: search.id, method: :post }, class: 'button is-outlined is-small is-primary' %>
+              </td>
+              <td scope="row">
+                <%= button_to 'Delete', listing_path(search), method: :delete, class: 'button is-outlined is-small is-danger', data: { confirm: 'Are you certain you want to delete this? It will also delete any listings from the search.' } %>
+              </td>
+            </tr>
+          <% end %>
+          </tbody>
+        </table>
+      </div>
+      <div class="panel-block">
+        <%= link_to 'New Search', new_listing_path, { class: 'is-outlined button is-small is-info' }%>
+<!--        <button class="button is-link is-outlined">-->
+<!--        <div><%#= link_to 'New Search', new_listing_path %></div>-->
+        <%#= button_to "Sync w/ Pb", listings_synch_with_pb_path %>
+      </div>
+    </nav>
+  <% end %>
+
+  <% if @listings.size > 0 %>
+    <div class="card">
+      <div class="card-header">
+        <p class="card-header-title">
+          Found <%= @listings.count %> Pb listings.
+        </p>
+      </div>
+      <div class="card-content is-widescreen">
+        <table class="table is-striped is-narrow is-hoverable">
+          <thead class="thead-light">
+            <tr>
+              <th scope="col">Title</th>
+              <th scope="col">Category</th>
+              <th scope="col">Price</th>
+              <th scope="col">Original Post Date</th>
+              <th scope="col">Last Repost Late</th>
+              <th scope="col">Sale Status</th>
+              <th scope="col">View Count</th>
+              <th scope="col">Watch Count</th>
+              <th scope="col">Created At</th>
+            </tr>
+          </thead>
+          <tbody>
+          <% @listings.each do |listing| %>
+            <tr>
+              <th scope="row"><%= link_to listing.title, listing.url, target: :_blank %></th>
+              <td><%= listing.category %></td>
+              <td><%= listing.price %></td>
+              <td><%= listing.original_post_date %></td>
+              <td><%= listing.last_repost_date %></td>
+              <td><%= listing.sale_status %></td>
+              <td><%= listing.view_count %></td>
+              <td><%= listing.watch_count %></td>
+              <td><%= listing.created_at %></td>
+            </tr>
+          <% end %>
+          </tbody>
+        </table>
+      </div>
     </div>
   <% end %>
-  <div class="container">
-    <p>Found <%= @listing_details.count %> Hits. </p>
-    <div><%= link_to 'New Search', new_listing_path %></div>
-    <%= button_to "Sync w/ Pb", listings_synch_with_pb_path %>
-  </div>
-  <div class="container is-widescreen">
-    <table class="table is-striped is-narrow is-hoverable">
-      <thead class="thead-light">
-        <tr>
-          <th scope="col">Title</th>
-          <th scope="col">Category</th>
-          <th scope="col">Price</th>
-          <th scope="col">Original Post Date</th>
-          <th scope="col">Last Repost Late</th>
-          <th scope="col">Sale Status</th>
-          <th scope="col">View Count</th>
-          <th scope="col">Watch Count</th>
-          <th scope="col">Created At</th>
-        </tr>
-      </thead>
-      <tbody>
-      <% @listing_details.each do |listing| %>
-        <tr>
-          <th scope="row"><%= link_to listing.title, listing.url, target: :_blank %></th>
-          <td><%= listing.category %></td>
-          <td><%= listing.price %></td>
-          <td><%= listing.original_post_date %></td>
-          <td><%= listing.last_repost_date %></td>
-          <td><%= listing.sale_status %></td>
-          <td><%= listing.view_count %></td>
-          <td><%= listing.watch_count %></td>
-          <td><%= listing.created_at %></td>
-        </tr>
-      <% end %>
-      </tbody>
-    </table>
-  </div>
 </div>

@@ -1,13 +1,21 @@
 <div class="container is-widescreen" style="margin-top: 20px;">
-  <div class="container">
-    <%= form_for @search, url: { action: :create }, html: { class: :control } do |f| %>
-      <div class="field">
-        <%= f.text_field :name, class: 'input', placeholder: 'Name / Description for Search' %>
-      </div>
-      <div class="field">
-        <%= f.text_field :url, class: 'input', placeholder: 'Pb search URL' %>
-      </div>
-      <%= f.submit "Add Search", class: 'button' %>
-    <% end %>
+  <div class="card">
+    <div class="card-header">
+      <p class="card-header-title">
+        Create a new Pb search
+      </p>
+    </div>
+    <div class="card-content">
+      <%= form_for @search, url: { action: :create }, html: { class: :control } do |f| %>
+        <div class="field">
+          <%= f.text_field :name, class: 'input', placeholder: 'Name / Description for Search' %>
+        </div>
+        <div class="field">
+          <%= f.text_field :url, class: 'input', placeholder: 'Pb search URL' %>
+        </div>
+        <%= f.submit "Add Search", class: 'button is-small is-primary is-outlined' %>
+        <%= link_to 'Back', 'javascript:history.go(-1);', { class: 'button is-small is-outlined' } %>
+      <% end %>
+    </div>
   </div>
 </div>

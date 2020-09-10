@@ -5,7 +5,6 @@
   <thead class="thead-light">
   <tr>
     <th scope="col">Title</th>
-    <th scope="col">URL</th>
     <th scope="col">Category</th>
     <th scope="col">Price</th>
     <th scope="col">Original Post Date</th>
@@ -18,9 +17,8 @@
   </thead>
   <tbody>
   <% @listing_details.each do |listing| %>
-    <tr>
-      <th scope="row"><%= listing.title %></th>
-      <td><%= listing.url %></td>
+    <a>
+      <th scope="row"><%= link_to listing.title, listing.url %></th>
       <td><%= listing.category %></td>
       <td><%= listing.price %></td>
       <td><%= listing.original_post_date %></td>

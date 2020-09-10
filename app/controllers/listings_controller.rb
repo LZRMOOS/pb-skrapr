@@ -3,7 +3,7 @@ class ListingsController < ApplicationController
   PB_ROAD_URL = 'https://www.pinkbike.com/buysell/list/?location=194-*-*&category=26&price=1000..3000&year=2021,2020,2019,2018,2017&framesize=21,22,16,28,29,30&wheelsize=13'
 
   def index
-    @listing_details = Listing.all
+    @listing_details = Listing.all.order('original_post_date DESC, price')
   end
 
   def new

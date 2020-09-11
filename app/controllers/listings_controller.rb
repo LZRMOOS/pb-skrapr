@@ -44,8 +44,9 @@ class ListingsController < ApplicationController
   def synch_with_pb
     search = Search.find(params[:search])
     search.update!(last_synch_at: DateTime.now)
-    listing_details = Skrapr.run(search)
-    Listing.create_from_collection(listing_details)
+    SynchListingsJob.perform_now(search)
+    # listing_details = Skrapr.run(search)
+    # Listing.create_from_collection(listing_details)
 
     redirect_to listings_path
   rescue StandardError => e

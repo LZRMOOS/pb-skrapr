@@ -13,7 +13,7 @@ class ListingsController < ApplicationController
 
   def show
     @search = Search.find(params[:id])
-    @listings = Listing.where(search_id: @search.id)
+    @listings = Listing.where(search_id: @search.id).order('original_post_date DESC, watch_count DESC')
 
     @searches = Search.all.order('last_synch_at DESC')
 
@@ -44,11 +44,9 @@ class ListingsController < ApplicationController
   def synch_with_pb
     search = Search.find(params[:search])
     search.update!(last_synch_at: DateTime.now)
-    SynchListingsJob.perform_now(search)
-    # listing_details = Skrapr.run(search)
-    # Listing.create_from_collection(listing_details)
+    SynchListingsJob.perform_later(search)
 
-    redirect_to listings_path
+    redirect_to listing_path(search.id)
   rescue StandardError => e
     Rails.logger.info(e)
   end

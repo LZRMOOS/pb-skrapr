@@ -27,3 +27,9 @@ ClearDB Setup ENV['DATABASE_URL']
 
 heroku run rake db:create
 heroku run rake db:migrate -a pbskrapr
+
+redis-server
+sidekiq
+rails s
+
+heroku ps:scale worker=1 -a pbskrapr

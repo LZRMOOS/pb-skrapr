@@ -25,7 +25,7 @@ class Skrapr
 
         next if listing_urls.include?(listing_url)
         next unless BUY_SELL_REGEX =~ listing_url
-        Rails.logger.info(listing_url)
+
         listing_urls << listing_url
       end
 
@@ -82,8 +82,6 @@ class Skrapr
           watch_count: watch_count,
           search_id: search_id
         }
-
-        Rails.logger.info(listing_params)
 
         next if listing_details.include?(listing_params)
         listing_details << listing_params

@@ -11,11 +11,9 @@
 #
 default: &default
   adapter: mysql2
-  encoding: utf8
+  timeout: 5000
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   username: root
-  password:
-  socket: /tmp/mysql.sock
 
 development:
   <<: *default
@@ -50,5 +48,4 @@ test:
 production:
   <<: *default
   database: pb-skrapr_production
-  username: pb-skrapr
-  password: <%= ENV['PB-SKRAPR_DATABASE_PASSWORD'] %>
+  url: <%= ENV['DATABASE_URL'] %>

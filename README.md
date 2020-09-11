@@ -22,3 +22,8 @@ Things you may want to cover:
 * Deployment instructions
 
 * ...
+
+ClearDB Setup ENV['DATABASE_URL']
+
+heroku run rake db:create
+heroku run rake db:migrate -a pbskrapr

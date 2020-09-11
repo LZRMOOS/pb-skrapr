@@ -11,6 +11,15 @@ class ListingsController < ApplicationController
     @search = Search.new
   end
 
+  def show
+    @search = Search.find(params[:id])
+    @listings = Listing.where(search_id: @search.id)
+
+    @searches = Search.all.order('last_synch_at DESC')
+
+    render 'index'
+  end
+
   def create
     @search = Search.new(search_required_params)
 
@@ -28,8 +37,8 @@ class ListingsController < ApplicationController
     @search.destroy!
 
     render 'index'
-    rescue StandardError => e
-      Rails.logger.info(e)
+  rescue StandardError => e
+    Rails.logger.info(e)
   end
 
   def synch_with_pb

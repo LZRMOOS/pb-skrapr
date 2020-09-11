@@ -20,5 +20,6 @@ class Search < ApplicationRecord
   validates :name,
             presence: true,
             length: { minimum: 1, maximum: 40 }
+
   validates_uniqueness_of :url, :name
 end

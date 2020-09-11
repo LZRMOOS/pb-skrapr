@@ -8,10 +8,16 @@
     <div class="card-content">
       <%= form_for @search, url: { action: :create }, html: { class: :control } do |f| %>
         <div class="field">
-          <%= f.text_field :name, class: 'input', placeholder: 'Name / Description for Search' %>
+          <%= f.label 'Search name', class: 'label' %>
+          <%= f.text_field :name, class: 'input', placeholder: 'Super Awesome 2020 Large Enduro' %>
         </div>
         <div class="field">
-          <%= f.text_field :url, class: 'input', placeholder: 'Pb search URL' %>
+          <%= f.label 'Search url', class: 'label' %>
+          <%= f.text_field :url, class: 'input', placeholder: 'The URL for the Pb search' %>
+        </div>
+        <div class="field">
+          <%= f.label :Staleness, class: 'label' %>
+          <%= f.text_field :staleness, class: 'input', placeholder: '10' %>
         </div>
         <%= f.submit "Add Search", class: 'button is-small is-primary is-outlined' %>
         <%= link_to 'Back', 'javascript:history.go(-1);', { class: 'button is-small is-outlined' } %>

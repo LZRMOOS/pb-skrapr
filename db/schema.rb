@@ -32,6 +32,7 @@ ActiveRecord::Schema.define(version: 2020_09_09_225126) do
     t.string "name"
     t.string "url"
     t.datetime "last_synch_at"
+    t.integer "staleness", default: 10
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

@@ -4,6 +4,7 @@ class CreateSearches < ActiveRecord::Migration[5.2]
       t.string :name
       t.string :url
       t.datetime :last_synch_at
+      t.integer :staleness, default: 10
       t.timestamps
     end
   end

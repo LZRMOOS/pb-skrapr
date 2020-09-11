@@ -36,7 +36,7 @@ class ListingsController < ApplicationController
     @search.listings.destroy_all
     @search.destroy!
 
-    render 'index'
+    redirect_to listings_path
   rescue StandardError => e
     Rails.logger.info(e)
   end
@@ -55,6 +55,6 @@ class ListingsController < ApplicationController
   private
 
   def search_required_params
-    params.require(:search).permit(:name, :url)
+    params.require(:search).permit(:name, :url, :staleness)
   end
 end

@@ -1,14 +1,15 @@
 <div class="container">
-  <% if @searches&.size > 0 %>
-    <nav class="panel" style="margin-top: 20px;">
-      <p class="panel-heading">Searches</p>
-      <div class="panel-block">
+  <nav class="panel" style="margin-top: 20px;">
+    <p class="panel-heading">Searches</p>
+    <div class="panel-block">
+      <% if @searches&.size > 0 %>
         <table class="table is-striped is-hoverable">
           <thead class="thead-light">
             <tr>
               <th>Search Name</th>
               <th>Pb URL</th>
               <th>Last Synch At</th>
+              <th>Staleness</th>
               <th></th>
               <th></th>
             </tr>
@@ -16,10 +17,11 @@
           <tbody>
           <% @searches.each do |search| %>
             <tr>
-<!--              <td scope="row"><%#= link_to search.name, search.url, target: :_blank %></td>-->
+  <!--              <td scope="row"><%#= link_to search.name, search.url, target: :_blank %></td>-->
               <td><%= link_to search.name, listing_path(search), method: :get %></td>
               <td><%= link_to search.url, search.url, target: :_blank %></td>
               <td><%= search.last_synch_at %></td>
+              <td><%= search.staleness %> days</td>
               <td>
                 <%= button_to 'Synch', { controller: :listings, action: :synch_with_pb, search: search.id, method: :post }, class: 'button is-outlined is-small is-primary' %>
               </td>
@@ -30,23 +32,23 @@
           <% end %>
           </tbody>
         </table>
+      <% end %>
+    </div>
+    <div class="panel-block">
+      <div class="columns">
+      <div class="column">
+        <%= link_to 'New Search', new_listing_path, { class: 'is-outlined button is-small is-info' }%>
       </div>
-      <div class="panel-block">
-        <div class="columns">
-        <div class="column">
-          <%= link_to 'New Search', new_listing_path, { class: 'is-outlined button is-small is-info' }%>
-        </div>
-        <div class="column">
-          <%= link_to 'Show all', root_path, { class: 'is-outlined button is-small'} %>
-        </div>
-        </div>
-        
+      <div class="column">
+        <%= link_to 'Show all', root_path, { class: 'is-outlined button is-small'} %>
+      </div>
+      </div>
+      
 <!--        <button class="button is-link is-outlined">-->
 <!--        <div><%#= link_to 'New Search', new_listing_path %></div>-->
-        <%#= button_to "Sync w/ Pb", listings_synch_with_pb_path %>
-      </div>
-    </nav>
-  <% end %>
+      <%#= button_to "Sync w/ Pb", listings_synch_with_pb_path %>
+    </div>
+  </nav>
 
   <% if @listings&.size > 0 %>
     <div class="card">

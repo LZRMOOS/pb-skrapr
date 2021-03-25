@@ -51,6 +51,14 @@ class ListingsController < ApplicationController
     Rails.logger.info(e)
   end
 
+  def purge_old_listings
+    PurgeOldListingsJob.perform_now
+
+    redirect_to listings_path
+  rescue StandardError => e
+    Rails.logger.info(e)
+  end
+
   private
 
   def search_required_params
